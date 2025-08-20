@@ -21,13 +21,13 @@ impl LoadResource for App {
         self.init_asset::<T>();
         let world = self.world_mut();
         let value = T::from_world(world);
-        let assets = world.resource::<AssetServer>();
+        let assets = world.get_resource::<AssetServer>().unwrap();
         let handle = assets.add(value);
-        let mut handles = world.resource_mut::<ResourceHandles>();
+        let mut handles = world.get_resource_mut::<ResourceHandles>().unwrap();
         handles
             .waiting
             .push_back((handle.untyped(), |world, handle| {
-                let assets = world.resource::<Assets<T>>();
+                let assets = world.get_resource::<Assets<T>>().unwrap();
                 if let Some(value) = assets.get(handle.id().typed::<T>()) {
                     world.insert_resource(value.clone());
                 }

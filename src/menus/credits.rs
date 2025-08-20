@@ -102,7 +102,7 @@ struct CreditsAssets {
 
 impl FromWorld for CreditsAssets {
     fn from_world(world: &mut World) -> Self {
-        let _assets = world.resource::<AssetServer>();
+        let _assets = world.get_resource::<AssetServer>().unwrap();
         Self {
             //music: assets.load("audio/music/Monkeys Spinning Monkeys.ogg"),
         }

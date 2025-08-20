@@ -105,7 +105,7 @@ pub struct PlayerAssets {
 
 impl FromWorld for PlayerAssets {
     fn from_world(world: &mut World) -> Self {
-        let assets = world.resource::<AssetServer>();
+        let assets = world.get_resource::<AssetServer>().unwrap();
         Self {
             ducky: assets.load_with_settings(
                 "images/ducky.png",

@@ -12,13 +12,22 @@ mod menus;
 mod screens;
 mod theme;
 
-use bevy::remote::RemotePlugin;
-use bevy::remote::http::RemoteHttpPlugin;
+#[cfg(not(target_family = "wasm"))]
+use bevy::remote::{RemotePlugin, http::RemoteHttpPlugin};
+
 use bevy::{asset::AssetMetaCheck, prelude::*};
 
 fn main() -> AppExit {
     App::new().add_plugins(AppPlugin).run()
 }
+
+#[cfg(not(target_family = "wasm"))]
+fn add_debug_plugins(app: &mut App) {
+    app.add_plugins((RemotePlugin::default(), RemoteHttpPlugin::default()));
+}
+
+#[cfg(target_family = "wasm")]
+fn add_debug_plugins(_app: &mut App) {}
 
 pub struct AppPlugin;
 
@@ -45,10 +54,10 @@ impl Plugin for AppPlugin {
                 }),
         );
 
+        add_debug_plugins(app);
+
         // Add other plugins.
         app.add_plugins((
-            RemotePlugin::default(),
-            RemoteHttpPlugin::default(),
             asset_tracking::plugin,
             audio::plugin,
             demo::plugin,

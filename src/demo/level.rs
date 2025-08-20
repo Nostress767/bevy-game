@@ -23,7 +23,7 @@ pub struct LevelAssets {
 
 impl FromWorld for LevelAssets {
     fn from_world(world: &mut World) -> Self {
-        let assets = world.resource::<AssetServer>();
+        let assets = world.get_resource::<AssetServer>().unwrap();
         Self {
             music: assets.load("audio/music/test_music.ogg"),
         }

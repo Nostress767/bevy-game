@@ -50,7 +50,7 @@ struct InteractionAssets {
 
 impl FromWorld for InteractionAssets {
     fn from_world(world: &mut World) -> Self {
-        let assets = world.resource::<AssetServer>();
+        let assets = world.get_resource::<AssetServer>().unwrap();
         Self {
             hover: assets.load("audio/sound_effects/button_hover.ogg"),
             click: assets.load("audio/sound_effects/button_click.ogg"),
